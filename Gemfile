@@ -25,3 +25,6 @@ end
 
 #---------------------------------------------------
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-vkontakte'
+gem 'figaro'

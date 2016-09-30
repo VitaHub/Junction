@@ -4,6 +4,16 @@
 		<p><%= current_user.email %></p>
 		
 	<% else %>
-		<span class="pull-right"><%= link_to 'Log In', new_user_session_path %> <%= link_to 'Sign Up', new_user_registration_path %></span>
+		<span class="pull-right"><%= link_to 'Log In', new_user_session_path %> <%= link_to 'Sign Up', new_user_registration_path %>
+		<%- if devise_mapping.omniauthable? %>
+  		<div class="text-center">
+				<div class="btn-group">
+		  		<%- resource_class.omniauth_providers.each do |provider| %>
+						<%= link_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %>
+		 			<% end -%>
+				</div>
+  		</div>
+		<% end -%>
+		</span>
 	<% end %>
 </div>
