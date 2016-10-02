@@ -1,19 +1,29 @@
 <div class="header">
-	<% if user_signed_in? %>
-		<p class="pull-right"><%= link_to 'Log Out', destroy_user_session_path, :method => :delete %><%= link_to 'Edit profile', edit_user_registration_path %></p>
-		<p><%= current_user.email %></p>
-		
-	<% else %>
-		<span class="pull-right"><%= link_to 'Log In', new_user_session_path %> <%= link_to 'Sign Up', new_user_registration_path %>
-		<%- if devise_mapping.omniauthable? %>
-  		<div class="text-center">
-				<div class="btn-group">
-		  		<%- resource_class.omniauth_providers.each do |provider| %>
-						<%= link_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %>
-		 			<% end -%>
-				</div>
-  		</div>
-		<% end -%>
-		</span>
-	<% end %>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%=  link_to root_path do %>
+					<h1>Junction</h1>
+				<% end %>
+			</div>
+			<div class="col-md-9">
+				<ul class="nav nav-tabs pull-right">
+					<% if user_signed_in? %>
+						<li><%= link_to 'Users', users_path, class: "button" %></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle button" data-toggle='dropdown'>Me: <%= current_user.first_name+' '+current_user.last_name %> <b class="caret"></b></a>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><%= link_to 'Edit profile', edit_user_registration_path, class: "button" %></li>
+								<li><%= link_to 'Exit', destroy_user_session_path, :method => :delete, id: "logout_link", class: "button" %></li>
+							</ul>
+						</li>
+					<% else %>
+						<% unless current_page?(:controller => 'registrations', :action => "new") %>
+							<li><%= link_to 'Sign Up', new_user_registration_path, id: "signup_link", class: "button" %></li>
+						<% end %>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>

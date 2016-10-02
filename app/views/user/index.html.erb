@@ -1,4 +1,10 @@
-<h1>All Users</h1>
-<% @users.each do |user| %>
-	<p><%= user.first_name %> <%= user.last_name %></p>
-<% end %>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+
+		<h2 class="text-center">All Users</h2>
+		<div class="list-group users_list">
+			<%= render @users %>
+		</div>
+		
+	</div>
+</div>

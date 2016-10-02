@@ -1,0 +1,6 @@
+<%= link_to user_path(user), class: "list-group-item" do %>
+	<%= image_tag user.avatar.url(:thumb) %>
+	<h4 class="list-group-item-heading">
+		<%= user.first_name+' '+user.last_name %>
+	</h4>
+<% end %>

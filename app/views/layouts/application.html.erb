@@ -5,19 +5,25 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+ <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 </head>
 <body>
   <%= render 'shared/header' %>
 
-	<% if notice %>
-		<p class="notice"><%= notice %></p>
-	<% end %>
-	<% if alert %>
-    <p class="alert"><%= alert %></p>
-  <% end %>
+  <div class="body">
+    <div class="container">
 
+      <% if notice %>
+        <div class="alert alert-success"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="alert alert-danger"><%= alert %></div>
+      <% end %>
 
-<%= yield %>
+      <%= yield %>
+
+    </div>
+  </div>
 
 </body>
 </html>

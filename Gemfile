@@ -16,6 +16,8 @@ gem 'sdoc', 													'~> 0.4.0', group: :doc
 
 group :development, :test do
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -28,3 +30,9 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-vkontakte'
 gem 'figaro'
+gem 'bower-rails'
+gem 'paperclip', 											'~> 5.0.0'
+
+group :test do
+	gem 'capybara'
+end

@@ -1,0 +1,87 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require 'bootstrap-sass-official'
+ */
+
+ body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Merriweather', sans-serif !important;
+
+	a {
+		&:hover {
+			text-decoration: none;
+		}
+
+		h1 {
+			color: #000;
+		}
+	}
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+	/*Header*/
+.header {
+	height: 80px;
+	.nav {
+		margin-top: 16px;
+		border-bottom: 1px solid #000;
+		&:hover {
+			border-bottom: none;
+		}
+		li.dropdown.open > a {
+			background-color: #fff;
+			border: 1px solid #000;
+		}
+		.dropdown-menu .button {
+				border: none;
+				&:hover {
+					border: none;
+					background-color: #f1f1f1;
+				}
+		}
+		.button {
+			border-bottom: 1px solid #000;
+			font-size: 16px;
+			color: #000;
+			padding: 8px;
+			cursor: pointer;
+			margin: 0;
+			border-radius: 0;
+			&:hover {
+				background-color: #fff;
+				border: 1px solid #000;
+				border-bottom: none;
+			}
+			&:visited {
+				border: 1px solid #000;
+				background-color: #fff;
+			}
+			&:active {
+				border: 1px solid #000;
+				background-color: #fff;
+			}
+		}
+	}
+}
+
+	/*Body*/
+.body {
+	
+}
