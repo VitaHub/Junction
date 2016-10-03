@@ -50,4 +50,13 @@ class User < ActiveRecord::Base
     user
   end
 
+  def age
+    if birth_date
+      now = Time.now.utc.to_date
+      now.year - birth_date.year - (birth_date.to_date.change(:year => now.year) > now ? 1 : 0)
+    else
+      nil
+    end
+  end
+
 end

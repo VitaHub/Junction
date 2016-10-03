@@ -4,6 +4,9 @@
 		<%= user.first_name+' '+user.last_name %>
 	</h4>
 	<% if user.city_id %>
-		<h5 class="list-group-item-text"><%= City.find(user.city_id).name %> (<%= Country.find(user.country_id).name %>)</h5>
+		<p class="list-group-item-text"><%= City.find(user.city_id).name %> (<%= Country.find(user.country_id).name %>)</p>
+	<% end %>
+	<% if user.birth_date %>
+		<p class="list-group-item-text"><%= pluralize(user.age, 'year') %></p>
 	<% end %>
 <% end %>

@@ -10,9 +10,17 @@
 			<% else %>
 				<h3>City: <span class="h4"><%= link_to "Please fill in your profile", edit_user_registration_path %></span></h3>
 			<% end %>
+			<% if @user.birth_date %>
+				<h4><%= @user.birth_date.strftime("%d %B %Y") %> (<%= pluralize(@user.age, 'year') %>)</h4>
+			<% else %>
+				<h4>Birth date: <span class="h5"><%= link_to "Please fill in your profile", edit_user_registration_path %></span></h4>
+			<% end %>
 		<% else %>
 			<% if @user.city_id %>
 				<h3>City: <%= City.find(@user.city_id).name %></h3>
+			<% end %>
+			<% if @user.birth_date %>
+				<h4><%= @user.birth_date.strftime("%d %B %Y") %> (<%= pluralize(@user.age, 'year') %>)</h4>
 			<% end %>
 		<% end %>
 	</div>
