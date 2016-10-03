@@ -32,6 +32,7 @@ gem 'omniauth-vkontakte'
 gem 'figaro'
 gem 'bower-rails'
 gem 'paperclip', 											'~> 5.0.0'
+gem 'jquery-turbolinks'
 
 group :test do
 	gem 'capybara'

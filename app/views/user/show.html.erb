@@ -3,7 +3,17 @@
 		<%= image_tag @user.avatar.url(:medium) %>
 	</div>
 	<div class="col-md-8">
-		<h2><%= @user.first_name %></h2>
-		<h3><%= @user.last_name %></h3>
+		<h2><%= @user.first_name + ' ' + @user.last_name  %></h2>
+		<% if current_user == @user %>
+			<% if @user.city_id %>
+				<h3>City: <%= City.find(@user.city_id).name %></h3>
+			<% else %>
+				<h3>City: <span class="h4"><%= link_to "Please fill in your profile", edit_user_registration_path %></span></h3>
+			<% end %>
+		<% else %>
+			<% if @user.city_id %>
+				<h3>City: <%= City.find(@user.city_id).name %></h3>
+			<% end %>
+		<% end %>
 	</div>
 </div>
