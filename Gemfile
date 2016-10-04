@@ -33,6 +33,8 @@ gem 'figaro'
 gem 'bower-rails'
 gem 'paperclip', 											'~> 5.0.0'
 gem 'jquery-turbolinks'
+gem 'pg'
+gem 'faker'
 
 group :test do
 	gem 'capybara'

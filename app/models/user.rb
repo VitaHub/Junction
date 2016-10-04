@@ -59,4 +59,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.search(search)
+    search = "%#{search}%".mb_chars.downcase.to_s
+    where("LOWER(last_name || ' ' || first_name) LIKE ? or LOWER(first_name || ' ' || last_name) LIKE ?", search, search) 
+  end
+
 end

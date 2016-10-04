@@ -1,10 +1,46 @@
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 
-		<h2 class="text-center">All Users</h2>
-		<div class="list-group users_list">
+		<h2 class="text-center">User Search</h2>
+		<%= form_tag(users_path, :method => "get", id: "search-form", remote: true) do %>
+			<div class="input-group stylish-input-group">
+				<%= text_field_tag :search, params[:search], placeholder: "Search Users", class: "form-control" %>
+				<span class="input-group-addon">
+					<%= button_tag(type: "submit") do %>
+						<span class="glyphicon glyphicon-search"></span>
+					<% end %>
+				</span>
+			</div>
+		<% end %>
+
+		<div class="list-group users_list" id="user-list">
+			<p><%= pluralize(@users.count, 'user') %> finded.</p> 
 			<%= render @users %>
 		</div>
 		
 	</div>
 </div>
+
+<style type="text/css">
+
+	.stylish-input-group .input-group-addon {
+	  background: white !important; 
+	}
+
+	.stylish-input-group .form-control {
+		border-right:0; 
+		box-shadow:0 0 0; 
+		border-color:#ccc;
+	}
+
+	.stylish-input-group button {
+	  border:0;
+	  background:transparent;
+	  width: 100%;
+	}
+
+	#search-form {
+		margin-bottom: 20px;
+	}
+
+</style>
