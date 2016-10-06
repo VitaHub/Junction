@@ -35,6 +35,7 @@ gem 'paperclip', 											'~> 5.0.0'
 gem 'jquery-turbolinks'
 gem 'pg'
 gem 'faker'
+gem 'will_paginate', 									'~> 3.1.0'
 
 group :test do
 	gem 'capybara'

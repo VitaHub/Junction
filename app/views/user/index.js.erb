@@ -1,5 +1,12 @@
 <% if @users.present? %>
-	$('#user-list').html("<p><%= pluralize(@users.count, 'user') %> found.</p><%= escape_javascript render @users %>")
+	$('#users-count').html("<p><%= pluralize(@users.count, 'user') %> found.</p>")
+	$('#user-list').append('<%= escape_javascript render(@users) %>');
+	<% if @users.count <= 20 %>
+		$('.pagination').empty();
+	<% else %>
+		$('.pagination').replaceWith("<%= escape_javascript will_paginate(@users) %>");
+	<% end %>
+
 <% else %>
 	$('#user-list').html("<p>User is not found.</p>")
 <% end %>

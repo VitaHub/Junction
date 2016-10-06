@@ -1,8 +1,9 @@
 class UserController < ApplicationController
 	before_action :authenticate_user!
-	
+	PER_PAGE = 20
+
 	def index
-		@users = User.all.order('created_at DESC')
+		@users = User.all.order('created_at DESC').paginate(page: params[:page], per_page: PER_PAGE)
 		if search_params_available?(params)
 	    @users = @users.by_name(params[:search]) if params[:search].to_s.size > 2
 	    @users = @users.by_gender(params[:gender]) unless params[:gender].to_s.empty?
@@ -19,8 +20,9 @@ class UserController < ApplicationController
 	    		@users = @users.by_country(params[:country_id])
 	    	end
 	    end
+	    @users.paginate(page: params[:page], per_page: PER_PAGE)
 	  else
-	    @users = User.all.order('created_at DESC')
+	    @users = User.all.order('created_at DESC').paginate(page: params[:page], per_page: PER_PAGE)
 		end
 
 		respond_to do |format|

@@ -51,10 +51,11 @@
 
 		<% end %>
 
+		<p id="users-count"><%= pluralize(@users.count, 'user') %> found.</p> 
 		<div class="list-group users_list" id="user-list">
-			<p><%= pluralize(@users.count, 'user') %> found.</p> 
 			<%= render @users %>
 		</div>
+		<%= will_paginate @users %>
 		
 	</div>
 </div>
