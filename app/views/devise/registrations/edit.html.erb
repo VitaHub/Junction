@@ -31,6 +31,11 @@
         <%= f.text_field :last_name, autofocus: true, class: "form-control" %>
       </div>
 
+      <div class="form-group">
+        <%= f.label :gender %><br />
+        <%= f.select :gender, User::GENDER_TYPES.zip(1..3), {}, { autofocus: true, class: "form-control"} %>
+      </div>      
+
       <div class="form-inline form-group">
         <%= f.label :birth_date %><br />
         <%= f.date_field :birth_date, { class: "form-control", include_blank: true } %>

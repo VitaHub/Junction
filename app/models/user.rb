@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
+	GENDER_TYPES = ["Not telling","Male", "Female"]
+  validates :gender, inclusion: {in: [1, 2, 3], message: "%{value} is not valid gender" }
   has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: "default_avatar/:style/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
+  validates :first_name, :last_name, presence: true
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :omniauthable
@@ -62,6 +65,10 @@ class User < ActiveRecord::Base
   def self.search(search)
     search = "%#{search}%".mb_chars.downcase.to_s
     where("LOWER(last_name || ' ' || first_name) LIKE ? or LOWER(first_name || ' ' || last_name) LIKE ?", search, search) 
+  end
+
+  def gender_txt
+  	GENDER_TYPES[self.gender - 1]
   end
 
 end
