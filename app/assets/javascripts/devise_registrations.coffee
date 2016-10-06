@@ -30,6 +30,8 @@ ready = () ->
 		else
 			$('#user_state_id').empty()
 			$('#user_state_id').parent().hide()
+			$('#user_city_id').html('<option value=""></option>')
+			$('#user_city_id').parent().hide()
 
 	$('#user_state_id').change ->
 		state = $('#user_state_id :selected').text()

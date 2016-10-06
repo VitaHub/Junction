@@ -62,10 +62,29 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.search(search)
-    search = "%#{search}%".mb_chars.downcase.to_s
-    where("LOWER(last_name || ' ' || first_name) LIKE ? or LOWER(first_name || ' ' || last_name) LIKE ?", search, search) 
-  end
+  # User search
+  scope :by_gender, lambda {|gender| where(:gender => gender)}
+
+  scope :by_name, (lambda do |name|
+    search = "%#{name}%".mb_chars.downcase.to_s
+    where("LOWER(last_name || ' ' || first_name) LIKE ? or LOWER(first_name || ' ' || last_name) LIKE ?", search, search)    
+  end)
+
+  scope :by_min_age, (lambda do |min_age|
+    date = Date.today - min_age.to_i.years
+    where("birth_date <= ?", date)
+  end) 
+
+  scope :by_max_age, (lambda do |min_age|
+    date = Date.today - (min_age.to_i + 1).years
+    where("birth_date > ?", date)
+  end) 
+
+  scope :by_country, lambda {|country| where(:country_id => country)}
+
+  scope :by_state, lambda {|state| where(:state_id => state)}
+
+  scope :by_city, lambda {|city| where(:city_id => city)}
 
   def gender_txt
   	GENDER_TYPES[self.gender - 1]

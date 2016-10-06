@@ -1,5 +1,5 @@
 <% if @users.present? %>
-	$('#user-list').html("<p><%= pluralize(@users.count, 'user') %> finded.</p><%= escape_javascript render @users %>")
+	$('#user-list').html("<p><%= pluralize(@users.count, 'user') %> found.</p><%= escape_javascript render @users %>")
 <% else %>
-	$('#user-list').html("<p>There are no users with name: <%= params[:search] %>.</p>")
+	$('#user-list').html("<p>User is not found.</p>")
 <% end %>
