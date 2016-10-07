@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get user, if it already exists
+    p auth
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource || identity.user
     # Create user if needed
@@ -33,9 +34,11 @@ class User < ActiveRecord::Base
       # Create user if this is a new record
       if user.nil?
         pass = Devise.friendly_token[0,20]
+        gender = auth.extra.raw_info.sex == 1 ? 3 : auth.extra.raw_info.sex == 2 ? 2 : 1
         user = User.new(
           first_name: auth.info.first_name,
           last_name: auth.info.last_name,
+          gender: gender,
           email: email,
           password: pass,
           password_confirmation: pass
