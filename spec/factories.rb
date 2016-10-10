@@ -1,4 +1,14 @@
 FactoryGirl.define do
+  factory :message do
+    recipient_id 1
+    sender_id 1
+    conversation_id 1
+    body "MyText"
+    status 1
+  end
+  factory :conversation do
+    
+  end
   factory :city do
     name "MyString"
     state nil

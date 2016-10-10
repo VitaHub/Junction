@@ -1,12 +1,17 @@
-<%= link_to user_path(user), class: "list-group-item" do %>
-	<%= image_tag user.avatar.url(:thumb) %>
-	<h4 class="list-group-item-heading">
-		<%= user.first_name+' '+user.last_name %>
-	</h4>
-	<% if user.city_id %>
-		<p class="list-group-item-text"><%= City.find(user.city_id).name %> (<%= Country.find(user.country_id).name %>)</p>
+<div class="list-group-item">
+	<%= link_to user_path(user) do %>
+		<%= image_tag user.avatar.url(:thumb) %>
 	<% end %>
-	<% if user.birth_date %>
-		<p class="list-group-item-text"><%= pluralize(user.age, 'year') %></p>
+	<%= link_to "Send message", conversations_path(recipient_id: user.id), method: :post, class: "pull-right btn btn-default" %>
+	<%= link_to user_path(user) do %>
+		<h4 class="list-group-item-heading">
+			<%= user.first_name+' '+user.last_name %>
+		</h4>
+		<% if user.city_id %>
+			<p class="list-group-item-text"><%= City.find(user.city_id).name %> (<%= Country.find(user.country_id).name %>)</p>
+		<% end %>
+		<% if user.birth_date %>
+			<p class="list-group-item-text"><%= pluralize(user.age, 'year') %></p>
+		<% end %>
 	<% end %>
-<% end %>
+</div>

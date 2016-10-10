@@ -1,4 +1,10 @@
 class User < ActiveRecord::Base
+  has_many :sent_messages, 
+           class_name: 'Message', 
+           foreign_key: 'sender_id' 
+  has_many :messages, foreign_key: 'recipient_id'
+  has_and_belongs_to_many :conversations
+
 	GENDER_TYPES = ["Not telling","Male", "Female"]
   validates :gender, inclusion: {in: [1, 2, 3], message: "%{value} is not valid gender" }
   has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: "default_avatar/:style/missing.png"
@@ -24,7 +30,6 @@ class User < ActiveRecord::Base
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     # Get user, if it already exists
-    p auth
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource || identity.user
     # Create user if needed
@@ -93,4 +98,7 @@ class User < ActiveRecord::Base
   	GENDER_TYPES[self.gender - 1]
   end
 
+  def full_name
+    first_name + ' ' + last_name
+  end
 end

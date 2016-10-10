@@ -16,7 +16,7 @@
 //= require 'bootstrap-sass-official'
 //= require_tree .
 
-/* require turbolinks */
+/* require turbolinks require sync */
 
 
   // For pagination

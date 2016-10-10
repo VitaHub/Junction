@@ -1,0 +1,36 @@
+<div class="messages">
+	
+	<h3><%= name(@conversation) %></h3>
+	<div class="messages-list">
+		<table>
+			<tbody>
+				<!-- sync partial: 'message', collection: Message.by_conversation(@conversation) -->
+				<!-- sync_new partial: 'message', resource: Message.new, direction: :append, scope: Message.by_conversation(@conversation) -->
+				<%= render partial: "sync/messages/message", collection: @messages %>
+			</tbody>
+		</table>
+	</div>
+
+	<%= form_for [@conversation, @message] do |f| %>
+	 	<%= f.text_area :body, class: "form-control" %>
+		<%= f.submit "Add Message", class: "btn btn-default", type: "hidden" %>
+	<% end %>
+
+</div>
+
+<script type="text/javascript">
+	var ready = function() {
+		$('#message_body').focus();
+
+		/*$('.new_message').on("ajax:success", function(e, data, status, xhr) {
+			$('#message_body').val('');
+		});*/
+
+		$("#message_body").keydown(function(e){ 
+			if(e.which == 13 /*&& e.ctrlKey*/){ 
+				$('#new_message').submit(); 
+			}; 
+		});
+	};
+	$(document).ready(ready);
+</script>

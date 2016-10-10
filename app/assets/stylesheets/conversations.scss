@@ -1,0 +1,32 @@
+// Place all the styles related to the Conversations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.conversations {
+	table {
+		width: 100%;
+		td {
+			padding: 0;
+			vertical-align: top;
+			&.photo { width: 70px; }
+			&.body {
+				a, a:hover, a:active, a:visited {
+					text-decoration:none;
+				}
+				div {
+					text-decoration: none;
+					color: #000;
+					min-height: 60px;
+					margin: 5px;
+					padding: 5px;
+					span {
+						&.name {
+							font-weight: bold;
+						}
+					}
+				}
+				width: 100%;
+			}
+		}
+	}
+}

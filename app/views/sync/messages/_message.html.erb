@@ -1,0 +1,11 @@
+<tr class="<%= message.status %>">
+	<td class="photo">
+		<%= link_to user_path(User.find(message.sender_id)) do %>
+			<%= image_tag User.find(message.sender_id).avatar.url(:thumb), height: "70" %>
+		<% end %>
+	</td>
+	<td>
+		<span class="name"><%= User.find(message.sender_id).first_name %></span> <span class="time">(<%= time_for_messages(message.created_at) %>)</span><br>
+		<span class="body"><%= simple_format message.body %></span>
+	</td>
+</tr>

@@ -1,0 +1,22 @@
+<% if conversation.messages.last %>
+	<tr id='<%= conversation.id %>'>
+		<td class="photo">
+			<%= link_to user_path(interlocutor(conversation)) do %>
+				<%= image_tag interlocutor(conversation).avatar.url(:thumb), height: "70" %>
+			<% end %>
+		</td>
+		<td class="body">
+			<%= link_to conversation_messages_path(conversation) do %>
+				<div class="list-group-item">
+					<span class="name">
+						<%= interlocutor(conversation).full_name %>
+					</span>
+					<span class="time pull-right">
+						<%= time_for_messages(conversation.messages.last.created_at) %>
+					</span>
+					<p><%= User.find(conversation.messages.last.sender_id).first_name %>: <%=  truncate(conversation.messages.last.body, length: 50) %></p>
+			</div>
+			<% end %>
+		</td>
+	</tr>
+<% end %>

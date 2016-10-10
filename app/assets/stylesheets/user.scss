@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .users_list {
-	a {
+	div.list-group-item {
 		min-height: 122px;
 	}
 	img {
@@ -12,5 +12,8 @@
 	}
 	h4 {
 		margin-top: 10px;
+	}
+	a {
+		color: #000;
 	}
 }

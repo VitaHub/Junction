@@ -10,6 +10,10 @@ Rails.application.routes.draw do
 
   get 'users' => 'user#index'
   get 'users/:id' => 'user#show', as: :user
+
+  resources :conversations, only: [:index, :create] do
+    resources :messages, only: [:index, :create]
+  end
   
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

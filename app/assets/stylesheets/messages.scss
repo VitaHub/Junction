@@ -1,0 +1,40 @@
+// Place all the styles related to the Messages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.messages {
+
+	.new_message {
+		#message_body {
+			resize: none;
+		}
+		height: 100px;
+		padding: 20px;
+	}
+
+	.messages-list {
+		height: calc(100vh - 236px);
+		overflow-y: auto;
+
+		.read {
+			background-color: none;
+		}
+		.unread {
+			background-color: #f1f1f1;
+		}
+
+		table {
+			width: 100%;
+			td {
+				padding: 0;
+				vertical-align: top;
+			}
+			td.photo {
+				width: 70px;
+			}
+		}
+
+	}
+
+	height: calc(100vh - 136px);
+}

@@ -36,6 +36,9 @@ gem 'jquery-turbolinks'
 gem 'pg'
 gem 'faker'
 gem 'will_paginate', 									'~> 3.1.0'
+#gem 'faye'
+#gem 'thin', require: false
+#gem 'render_sync'
 
 group :test do
 	gem 'capybara'

@@ -43,6 +43,10 @@ ready = () ->
 			$('#user_city_id').empty()
 			$('#user_city_id').parent().hide()
 
+	# Devise error messages
+	$('#error_explanation').addClass('alert alert-warning')
+	$('#error_explanation h2').addClass('h4')
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
