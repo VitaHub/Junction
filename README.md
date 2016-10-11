@@ -10,7 +10,6 @@
  - static messaging between users.
  
 #### Next:
- - upgrading to rails 5;
  - real-time messaging (using Action Cable);
  - real-time notofications;
  - deploying on Heroku;
