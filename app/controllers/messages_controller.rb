@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
 	before_action :authenticate_user!, :set_conversation
+	include ActionView::Helpers::TextHelper
 	# enable_sync only: [:create]
 
 	def index
@@ -7,6 +8,12 @@ class MessagesController < ApplicationController
 		@message = Message.new
 		@conversation.messages.where(recipient_id: current_user.id).update_all(status: 1)
 		# sync_update @conversation.messages
+	  ActionCable.server.broadcast "messages_#{@conversation.id}",
+      read_all: true,
+      recipient_id: current_user.id,
+      conversation_id: @conversation.id
+    # head :ok
+
 	end
 
 	def create
@@ -16,9 +23,19 @@ class MessagesController < ApplicationController
 		@message.recipient_id = recipient_id
 		@conversation.updated_at = Time.now
     @conversation.save
-    # if 
-    	@message.save
+    if @message.save
+      ActionCable.server.broadcast "messages_#{@conversation.id}",
+        message: simple_format(@message.body),
+        status: @message.status,
+        created_at: helpers.time_for_messages(@message.created_at), # time_for_messages
+        user_path: user_path(User.find(@message.sender_id)),
+        avatar: User.find(@message.sender_id).avatar.url(:thumb),
+        sender_name: User.find(@message.sender_id).first_name,
+        recipient_id: @message.recipient_id,
+        conversation_id: @conversation.id
+      head :ok
     	@conversation.messages.where(recipient_id: current_user.id).update_all(status: 1)
+    end
     	# sync_update @conversation.messages
     	# sync_new @message
     # end

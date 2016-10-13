@@ -1,4 +1,4 @@
-<tr class="<%= message.status %>">
+<tr class="<%= message.status%>" recipient="<%= message.recipient_id.to_s %>">
 	<td class="photo">
 		<%= link_to user_path(User.find(message.sender_id)) do %>
 			<%= image_tag User.find(message.sender_id).avatar.url(:thumb), height: "70" %>

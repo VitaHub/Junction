@@ -1,0 +1,37 @@
+$(document).ready(function() {
+	var conversation = $('#messages-list').data('conversation');
+	var current_user_id = $('#messages-list').data('currentuserid');
+	App.messages = App.cable.subscriptions.create({channel: 'MessagesChannel', 
+													conversation: conversation }, {  
+	  received: function(data) {
+	  	if (data.read_all == true) {
+	  		$('tr[recipient='+ data.recipient_id +']').removeClass('unread').addClass('read');
+	  	} else {
+		    $('#messages-list tbody').append(this.renderMessage(data));
+		    $("#messages-list").scrollTop($('#messages-list table').height())
+		    if (current_user_id == data.recipient_id) {
+		    	this.readMessages(data)
+		    };
+		  };
+	  },
+
+	  renderMessage: function(data) {
+			return "<tr class='" + data.status + "' recipient='" + data.recipient_id + "'>" + 
+				"<td class='photo'>" + 
+					"<a href=" + data.user_path + ">" +
+						"<img height='70' src=" + data.avatar + " alt='avatar'>" +
+					"</a>" +
+				"</td>" +
+				"<td>" +
+					"<span class='name'>" + data.sender_name + "</span> " +
+					"<span class='time'>(" + data.created_at + ")</span><br>" +
+					"<span class='body'>" + data.message + "</span>" +
+				"</td>" +
+			"</tr>"    
+	  },
+
+	  readMessages: function(data) {
+	  	this.perform("read_messages", {conversation_id: data.conversation_id, recipient_id: data.recipient_id})
+	  }
+	});
+});
