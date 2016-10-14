@@ -1,0 +1,27 @@
+$(document).ready(function() {
+	App.conversations = App.cable.subscriptions.create({channel: 'ConversationsChannel'}, {  
+	  received: function(data) {
+	  	$('#conversations tr#' + data.conversation_id).remove();
+	    $('#conversations tbody').prepend(this.renderConversation(data));
+	  },
+
+	  renderConversation: function(data) {
+			return '<tr id='+ data.conversation_id +'>' + 
+				'<td class="photo">' + 
+					'<a href=' + data.interlocutor_path + '>' +
+						'<img height="70" src=' + data.interlocutor_avatar + ' alt="avatar">' +
+					'</a>' +
+				'</td>' +
+				'<td class="body">' +
+					'<a href='+ data.conversation_path +'>' +
+						'<div class="list-group-item">' +
+							'<span class="name">' + data.interlocutor_name + '</span>' +
+							'<span class="time pull-right">' + data.message_time + '</span>' + 
+							'<p>' + data.sender_name + ': ' + data.message_body + '</p>' +
+						'</div>' + 
+					'</a>' + 
+				'</td>' + 
+			'</tr>'   
+	  }
+	});
+});

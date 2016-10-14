@@ -22,23 +22,41 @@ class MessagesController < ApplicationController
 		recipient_id = @conversation.users.where.not(id: current_user.id)[0].id
 		@message.recipient_id = recipient_id
 		@conversation.updated_at = Time.now
-    @conversation.save
     if @message.save
       ActionCable.server.broadcast "messages_#{@conversation.id}",
         message: simple_format(@message.body),
         status: @message.status,
         created_at: helpers.time_for_messages(@message.created_at), # time_for_messages
         user_path: user_path(User.find(@message.sender_id)),
-        avatar: User.find(@message.sender_id).avatar.url(:thumb),
+        avatar: view_context.image_path(User.find(@message.sender_id).avatar.url(:thumb)),
         sender_name: User.find(@message.sender_id).first_name,
         recipient_id: @message.recipient_id,
         conversation_id: @conversation.id
       head :ok
     	@conversation.messages.where(recipient_id: current_user.id).update_all(status: 1)
+	    if @conversation.save
+	    	sender = User.find(@message.sender_id)
+	    	recipient = User.find(@message.recipient_id)
+	    	ActionCable.server.broadcast "conversations_user_#{sender.id}",
+	    		conversation_id: @conversation.id,
+	    		interlocutor_path: user_path(recipient),
+	    		interlocutor_avatar: view_context.image_path(recipient.avatar.url(:thumb)),
+	    		interlocutor_name: recipient.full_name,
+	    		conversation_path: conversation_messages_path(@conversation),
+	    		message_time: helpers.time_for_messages(@message.created_at),
+	    		sender_name: sender.first_name,
+	    		message_body: @message.body
+	    	ActionCable.server.broadcast "conversations_user_#{recipient.id}",
+	    		conversation_id: @conversation.id,
+	    		interlocutor_path: user_path(sender),
+	    		interlocutor_avatar: view_context.image_path(sender.avatar.url(:thumb)),
+	    		interlocutor_name: sender.full_name,
+	    		conversation_path: conversation_messages_path(@conversation),
+	    		message_time: helpers.time_for_messages(@message.created_at),
+	    		sender_name: sender.first_name,
+	    		message_body: truncate(@message.body, length: 50)
+	    end
     end
-    	# sync_update @conversation.messages
-    	# sync_new @message
-    # end
 
     respond_to do |format|
       format.html { redirect_to conversation_messages_path(@conversation) }
