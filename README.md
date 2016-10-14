@@ -8,8 +8,8 @@
  - filling in profile with personal information (birth date, location);
  - user search with multiple params (name, age, location, gender);
  - real-time messaging (using Action Cable);
+ - real-time notifications; 
  
 #### Next:
- - real-time notifications;
  - deploying on Heroku;
  - ...
