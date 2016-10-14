@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = () ->
-	$(".messages-list").scrollTop($('.messages-list table').height())
+	$("#messages-list").scrollTop($('#messages-list table').height())
 
 $(document).ready(ready)
 # $(document).on('page:load', ready)

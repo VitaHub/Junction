@@ -1,7 +1,7 @@
 <div class="messages">
 	
 	<h3><%= name(@conversation) %></h3>
-	<div class="messages-list">
+	<div id="messages-list" data-conversation="<%= @conversation.id %>" data-currentuserid="<%= current_user.id %>">
 		<table>
 			<tbody>
 				<!-- sync partial: 'message', collection: Message.by_conversation(@conversation) -->
@@ -11,7 +11,7 @@
 		</table>
 	</div>
 
-	<%= form_for [@conversation, @message] do |f| %>
+	<%= form_for [@conversation, @message], remote: true do |f| %>
 	 	<%= f.text_area :body, class: "form-control" %>
 		<%= f.submit "Add Message", class: "btn btn-default", type: "hidden" %>
 	<% end %>
@@ -22,9 +22,9 @@
 	var ready = function() {
 		$('#message_body').focus();
 
-		/*$('.new_message').on("ajax:success", function(e, data, status, xhr) {
+		$('.new_message').on("ajax:success", function(e, data, status, xhr) {
 			$('#message_body').val('');
-		});*/
+		});
 
 		$("#message_body").keydown(function(e){ 
 			if(e.which == 13 /*&& e.ctrlKey*/){ 

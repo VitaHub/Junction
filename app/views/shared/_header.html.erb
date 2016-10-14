@@ -1,12 +1,12 @@
 <div class="header">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3">
+			<div class="col-md-3 col-sm-4 col-xs-4">
 				<%=  link_to root_path do %>
 					<h1>Junction</h1>
 				<% end %>
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-9 col-sm-8 col-xs-8">
 				<ul class="nav nav-tabs pull-right">
 					<% if user_signed_in? %>
 						<li><%= link_to 'Messages', conversations_path, class: "button" %></li>
