@@ -12,7 +12,19 @@ class MessagesController < ApplicationController
       read_all: true,
       recipient_id: current_user.id,
       conversation_id: @conversation.id
-    # head :ok
+
+  	sender = User.find(@conversation.messages.last.sender_id) 
+  	recipient = User.find(@conversation.messages.last.recipient_id)
+  	ActionCable.server.broadcast "conversations_user_#{sender.id}",
+  		update: true,
+  		conversation_id: @conversation.id,
+  		conversation_status: '',
+  		message_status: @conversation.messages.last.status
+  	ActionCable.server.broadcast "conversations_user_#{recipient.id}",
+  		update: true,
+  		conversation_id: @conversation.id,
+  		conversation_status: @conversation.messages.last.status,
+  		message_status: @conversation.messages.last.status
 
 	end
 
@@ -39,20 +51,24 @@ class MessagesController < ApplicationController
 	    	recipient = User.find(@message.recipient_id)
 	    	ActionCable.server.broadcast "conversations_user_#{sender.id}",
 	    		conversation_id: @conversation.id,
+	    		conversation_status: '',
 	    		interlocutor_path: user_path(recipient),
 	    		interlocutor_avatar: view_context.image_path(recipient.avatar.url(:thumb)),
 	    		interlocutor_name: recipient.full_name,
 	    		conversation_path: conversation_messages_path(@conversation),
 	    		message_time: helpers.time_for_messages(@message.created_at),
+	    		message_status: @message.status,
 	    		sender_name: sender.first_name,
-	    		message_body: @message.body
+	    		message_body: truncate(@message.body, length: 50)
 	    	ActionCable.server.broadcast "conversations_user_#{recipient.id}",
 	    		conversation_id: @conversation.id,
+	    		conversation_status: @message.status,
 	    		interlocutor_path: user_path(sender),
 	    		interlocutor_avatar: view_context.image_path(sender.avatar.url(:thumb)),
 	    		interlocutor_name: sender.full_name,
 	    		conversation_path: conversation_messages_path(@conversation),
 	    		message_time: helpers.time_for_messages(@message.created_at),
+	    		message_status: @message.status,
 	    		sender_name: sender.first_name,
 	    		message_body: truncate(@message.body, length: 50)
 	    end

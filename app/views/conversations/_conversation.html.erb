@@ -1,5 +1,5 @@
 <% if conversation.messages.last %>
-	<tr id='<%= conversation.id %>'>
+	<tr id='<%= conversation.id %>' class='<%= conversation.messages.last.sender_id != current_user.id ? conversation.messages.last.status : nil %>'>
 		<td class="photo">
 			<%= link_to user_path(interlocutor(conversation)) do %>
 				<%= image_tag interlocutor(conversation).avatar.url(:thumb), height: "70" %>
@@ -14,8 +14,8 @@
 					<span class="time pull-right">
 						<%= time_for_messages(conversation.messages.last.created_at) %>
 					</span>
-					<p><%= User.find(conversation.messages.last.sender_id).first_name %>: <%=  truncate(conversation.messages.last.body, length: 50) %></p>
-			</div>
+					<p class='<%= conversation.messages.last.status %>'><%= User.find(conversation.messages.last.sender_id).first_name %>: <%=  truncate(conversation.messages.last.body, length: 50) %></p>
+				</div>
 			<% end %>
 		</td>
 	</tr>

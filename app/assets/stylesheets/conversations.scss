@@ -5,6 +5,14 @@
 #conversations {
 	table {
 		width: 100%;
+		tr.unread {
+			.list-group-item {
+				background-color: #f1f1f1;
+			}
+		}
+		p.unread {
+			background-color: #f1f1f1;
+		}
 		td {
 			padding: 0;
 			vertical-align: top;

@@ -1,12 +1,17 @@
 $(document).ready(function() {
 	App.conversations = App.cable.subscriptions.create({channel: 'ConversationsChannel'}, {  
 	  received: function(data) {
-	  	$('#conversations tr#' + data.conversation_id).remove();
-	    $('#conversations tbody').prepend(this.renderConversation(data));
+	  	if (data.update == true) {
+	  		$('#conversations tr#' + data.conversation_id).removeClass().addClass(data.conversation_status);
+	  		$('#conversations tr#' + data.conversation_id + ' p').removeClass().addClass(data.message_status);
+	  	} else {
+		  	$('#conversations tr#' + data.conversation_id).remove();
+		    $('#conversations tbody').prepend(this.renderConversation(data));
+	  	};
 	  },
 
 	  renderConversation: function(data) {
-			return '<tr id='+ data.conversation_id +'>' + 
+			return '<tr id='+ data.conversation_id +' class='+ data.conversation_status +'>' + 
 				'<td class="photo">' + 
 					'<a href=' + data.interlocutor_path + '>' +
 						'<img height="70" src=' + data.interlocutor_avatar + ' alt="avatar">' +
@@ -17,7 +22,7 @@ $(document).ready(function() {
 						'<div class="list-group-item">' +
 							'<span class="name">' + data.interlocutor_name + '</span>' +
 							'<span class="time pull-right">' + data.message_time + '</span>' + 
-							'<p>' + data.sender_name + ': ' + data.message_body + '</p>' +
+							'<p class='+ data.message_status +'>' + data.sender_name + ': ' + data.message_body + '</p>' +
 						'</div>' + 
 					'</a>' + 
 				'</td>' + 
