@@ -9,7 +9,15 @@
 			<div class="col-md-9 col-sm-8 col-xs-8">
 				<ul class="nav nav-tabs pull-right">
 					<% if user_signed_in? %>
-						<li><%= link_to 'Messages', conversations_path, class: "button" %></li>
+						<li>
+							<%= link_to conversations_path, class: "button" do %>
+								Messages <% if current_user.messages.unread.any? %>
+									<span id="messages-notification" class="badge"><%= current_user.messages.unread.count %></span>
+								<% else %>
+									<span id="messages-notification" class="badge hidden"></span>
+								<% end %>
+							<% end %>
+						</li>
 						<li><%= link_to 'Users', users_path, class: "button" %></li>
 						<li><%= link_to 'Me', user_path(current_user), class: "button" %></li>
 						<li class="dropdown">

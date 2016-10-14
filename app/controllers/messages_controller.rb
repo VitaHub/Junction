@@ -25,6 +25,9 @@ class MessagesController < ApplicationController
   		conversation_id: @conversation.id,
   		conversation_status: @conversation.messages.last.status,
   		message_status: @conversation.messages.last.status
+    ActionCable.server.broadcast "notifications_user_#{current_user.id}",
+    	type: 'update',
+    	messages: current_user.messages.unread.count
 
 	end
 
@@ -72,6 +75,9 @@ class MessagesController < ApplicationController
 	    		sender_name: sender.first_name,
 	    		message_body: truncate(@message.body, length: 50)
 	    end
+	    ActionCable.server.broadcast "notifications_user_#{recipient.id}",
+	    	type: 'new_message',
+	    	conversation_id: @conversation.id
     end
 
     respond_to do |format|
