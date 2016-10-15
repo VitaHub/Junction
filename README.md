@@ -8,8 +8,6 @@
  - filling in profile with personal information (birth date, location);
  - user search with multiple params (name, age, location, gender);
  - real-time messaging (using Action Cable);
- - real-time notifications; 
- 
-#### Next:
- - deploying on Heroku;
- - ...
+ - real-time notifications.
+
+#### https://juncti0n.herokuapp.com
