@@ -49,9 +49,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Mount Action Cable outside main process or domain
-  config.action_cable.mount_path = nil
+  # config.action_cable.mount_path = nil
   config.action_cable.url = 'wss://juncti0n.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = [ 'https://juncti0n.herokuapp.com', /https:\/\/juncti0n.herokuapp.*/ ]
+  config.action_cable.allowed_request_origins = [ 'https://juncti0n.herokuapp.com', /http:\/\/juncti0n.herokuapp.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
