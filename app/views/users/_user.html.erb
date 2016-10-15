@@ -2,7 +2,9 @@
 	<%= link_to user_path(user) do %>
 		<%= image_tag user.avatar.url(:thumb) %>
 	<% end %>
-	<%= link_to "Send message", conversations_path(recipient_id: user.id), method: :post, class: "pull-right btn btn-default" %>
+	<% unless user.id == current_user.id %>
+		<%= link_to "Send message", conversations_path(recipient_id: user.id), method: :post, class: "pull-right btn btn-default" %>
+	<% end %>
 	<%= link_to user_path(user) do %>
 		<h4 class="list-group-item-heading">
 			<%= user.first_name+' '+user.last_name %>

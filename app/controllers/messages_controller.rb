@@ -1,33 +1,37 @@
 class MessagesController < ApplicationController
 	before_action :authenticate_user!, :set_conversation
 	include ActionView::Helpers::TextHelper
-	# enable_sync only: [:create]
 
 	def index
-		@messages = @conversation.messages
+		# per_page = 15
+		# last_page = (@conversation.messages.count.to_f / per_page).ceil
+		if @conversation.messages.count > 0
+			@messages = @conversation.messages#.paginate(page: params[:page] || last_page , per_page: per_page)
+	  	sender = User.find(@conversation.messages.last.sender_id) 
+	  	recipient = User.find(@conversation.messages.last.recipient_id)
+	  	ActionCable.server.broadcast "conversations_user_#{sender.id}",
+	  		update: true,
+	  		conversation_id: @conversation.id,
+	  		conversation_status: '',
+	  		message_status: @conversation.messages.last.status
+	  	ActionCable.server.broadcast "conversations_user_#{recipient.id}",
+	  		update: true,
+	  		conversation_id: @conversation.id,
+	  		conversation_status: @conversation.messages.last.status,
+	  		message_status: @conversation.messages.last.status
+	    ActionCable.server.broadcast "notifications_user_#{current_user.id}",
+	    	type: 'update',
+	    	messages: current_user.messages.unread.count
+	  else
+	  	@messages = @conversation.messages
+		end
 		@message = Message.new
 		@conversation.messages.where(recipient_id: current_user.id).update_all(status: 1)
-		# sync_update @conversation.messages
+
 	  ActionCable.server.broadcast "messages_#{@conversation.id}",
       read_all: true,
       recipient_id: current_user.id,
       conversation_id: @conversation.id
-
-  	sender = User.find(@conversation.messages.last.sender_id) 
-  	recipient = User.find(@conversation.messages.last.recipient_id)
-  	ActionCable.server.broadcast "conversations_user_#{sender.id}",
-  		update: true,
-  		conversation_id: @conversation.id,
-  		conversation_status: '',
-  		message_status: @conversation.messages.last.status
-  	ActionCable.server.broadcast "conversations_user_#{recipient.id}",
-  		update: true,
-  		conversation_id: @conversation.id,
-  		conversation_status: @conversation.messages.last.status,
-  		message_status: @conversation.messages.last.status
-    ActionCable.server.broadcast "notifications_user_#{current_user.id}",
-    	type: 'update',
-    	messages: current_user.messages.unread.count
 
 	end
 

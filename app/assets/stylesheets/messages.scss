@@ -3,6 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .messages {
+	.pagination {
+		display: none;
+	}
 
 	.new_message {
 		#message_body {

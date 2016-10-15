@@ -21,7 +21,7 @@
 
   // For pagination
 $(document).ready(function() {
-  if ($('.pagination').length) {
+  if ($('.user_search .pagination').length) {
     $(window).scroll(function() {
       var url = $('.pagination .next_page').attr('href');
       if (url && $(window).scrollTop() > $(document).height() - $(window).height() - 50) {
@@ -30,6 +30,20 @@ $(document).ready(function() {
       }
     });
     return $(window).scroll();
+  }
+});
+
+$(document).ready(function() {
+  if ($('#messages-list .pagination').length) {
+    $('#messages-list').scroll(function() {
+      var url = $('.pagination .previous_page').attr('href');
+      if (url && $('#messages-list').scrollTop() < 50) {
+        $('.pagination').text("Please Wait...");
+        $('#messages-list').scrollTop(1050);
+        return $.getScript(url);
+      };
+    });
+    return $('#messages-list').scroll();
   }
 });
 

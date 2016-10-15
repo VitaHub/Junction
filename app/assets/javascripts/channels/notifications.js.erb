@@ -4,6 +4,9 @@ $(document).ready(function() {
 	  	if (data.type == 'new_message') {
   			var conversation = $('#messages-list').data('conversation');
   			if (conversation != data.conversation_id ) {
+  				var audio = new Audio(); 
+		  		audio.src = '/audios/new_message.mp3';
+		  		audio.autoplay = true;
   				var messages = $('#messages-notification').text();
   				if (messages == '') {
   					$('#messages-notification').removeClass('hidden').text('1');
