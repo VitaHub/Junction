@@ -1,4 +1,4 @@
-Rails.application.routes.default_url_options[:host] = 'juncti0n.herokuapp.com'
+# Rails.application.routes.default_url_options[:host] = 'juncti0n.herokuapp.com'
 Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
@@ -49,7 +49,7 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Mount Action Cable outside main process or domain
-  # config.action_cable.mount_path = nil
+  config.action_cable.mount_path = nil
   config.action_cable.url = 'wss://juncti0n.herokuapp.com/cable'
   config.action_cable.allowed_request_origins = [ 'https://juncti0n.herokuapp.com', /https:\/\/juncti0n.herokuapp.*/ ]
 
