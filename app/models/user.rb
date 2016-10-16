@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
 	GENDER_TYPES = ["Not telling","Male", "Female"]
   validates :gender, inclusion: {in: [1, 2, 3], message: "%{value} is not valid gender" }
-  has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: "default_avatar/:style/missing.png"
+  has_attached_file :avatar, styles: { medium: "300x300#", thumb: "100x100#" }, default_url: "default_avatar/:style/missing.png", storage: :cloudinary
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\z/
   validates :first_name, :last_name, presence: true
   devise :database_authenticatable, :registerable,
