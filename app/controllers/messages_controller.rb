@@ -47,7 +47,7 @@ class MessagesController < ApplicationController
         status: @message.status,
         created_at: helpers.time_for_messages(@message.created_at), # time_for_messages
         user_path: user_path(User.find(@message.sender_id)),
-        avatar: view_context.image_path(User.find(@message.sender_id).avatar.url(:thumb)),
+        avatar: view_context.image_path(User.find(@message.sender_id).avatar_url(:thumb)),
         sender_name: User.find(@message.sender_id).first_name,
         recipient_id: @message.recipient_id,
         conversation_id: @conversation.id
@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
 	    		conversation_id: @conversation.id,
 	    		conversation_status: '',
 	    		interlocutor_path: user_path(recipient),
-	    		interlocutor_avatar: view_context.image_path(recipient.avatar.url(:thumb)),
+	    		interlocutor_avatar: view_context.image_path(recipient.avatar_url(:thumb)),
 	    		interlocutor_name: recipient.full_name,
 	    		conversation_path: conversation_messages_path(@conversation),
 	    		message_time: helpers.time_for_messages(@message.created_at),
@@ -71,7 +71,7 @@ class MessagesController < ApplicationController
 	    		conversation_id: @conversation.id,
 	    		conversation_status: @message.status,
 	    		interlocutor_path: user_path(sender),
-	    		interlocutor_avatar: view_context.image_path(sender.avatar.url(:thumb)),
+	    		interlocutor_avatar: view_context.image_path(sender.avatar_url(:thumb)),
 	    		interlocutor_name: sender.full_name,
 	    		conversation_path: conversation_messages_path(@conversation),
 	    		message_time: helpers.time_for_messages(@message.created_at),

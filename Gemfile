@@ -39,7 +39,9 @@ gem 'pg'
 gem 'faker'
 gem 'will_paginate', 									'~> 3.1.0'
 gem 'redis', 													'~>3.2'
-gem 'paperclip-cloudinary'
+# gem 'paperclip-cloudinary'
+gem 'carrierwave'
+gem 'cloudinary'
 
 group :test do
 	gem 'capybara'

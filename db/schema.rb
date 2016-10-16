@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008185256) do
+ActiveRecord::Schema.define(version: 20161016024153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +20,8 @@ ActiveRecord::Schema.define(version: 20161008185256) do
     t.integer  "state_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_cities_on_state_id", using: :btree
   end
-
-  add_index "cities", ["state_id"], name: "index_cities_on_state_id", using: :btree
 
   create_table "conversations", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -47,9 +45,8 @@ ActiveRecord::Schema.define(version: 20161008185256) do
     t.string   "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
-
-  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "recipient_id"
@@ -66,9 +63,8 @@ ActiveRecord::Schema.define(version: 20161008185256) do
     t.integer  "country_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_states_on_country_id", using: :btree
   end
-
-  add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name"
@@ -89,23 +85,19 @@ ActiveRecord::Schema.define(version: 20161008185256) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
     t.integer  "country_id"
     t.integer  "state_id"
     t.integer  "city_id"
     t.date     "birth_date"
     t.integer  "gender",                 default: 1
+    t.string   "avatar"
+    t.index ["city_id"], name: "index_users_on_city_id", using: :btree
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["country_id"], name: "index_users_on_country_id", using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["state_id"], name: "index_users_on_state_id", using: :btree
   end
-
-  add_index "users", ["city_id"], name: "index_users_on_city_id", using: :btree
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["country_id"], name: "index_users_on_country_id", using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["state_id"], name: "index_users_on_state_id", using: :btree
 
   add_foreign_key "cities", "states"
   add_foreign_key "identities", "users"

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-4 text-center">
-		<%= image_tag @user.avatar.url(:medium) %>
+		<%= image_tag @user.avatar_url(:medium) %>
 		<% unless current_user == @user %>
 			<%= link_to "Send message", conversations_path(recipient_id: @user.id), method: :post, class: "btn btn-default" %>
 		<% end %>

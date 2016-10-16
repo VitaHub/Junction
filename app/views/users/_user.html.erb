@@ -1,6 +1,6 @@
 <div class="list-group-item">
 	<%= link_to user_path(user) do %>
-		<%= image_tag user.avatar.url(:thumb) %>
+		<%= image_tag user.avatar_url(:thumb) %>
 	<% end %>
 	<% unless user.id == current_user.id %>
 		<%= link_to "Send message", conversations_path(recipient_id: user.id), method: :post, class: "pull-right btn btn-default" %>

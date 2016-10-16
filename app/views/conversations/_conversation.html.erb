@@ -2,7 +2,7 @@
 	<tr id='<%= conversation.id %>' class='<%= conversation.messages.last.sender_id != current_user.id ? conversation.messages.last.status : nil %>'>
 		<td class="photo">
 			<%= link_to user_path(interlocutor(conversation)) do %>
-				<%= image_tag interlocutor(conversation).avatar.url(:thumb), height: "70" %>
+				<%= image_tag interlocutor(conversation).avatar_url(:thumb), height: "70" %>
 			<% end %>
 		</td>
 		<td class="body">
