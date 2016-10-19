@@ -1,11 +1,18 @@
+<div class="user-page">
 <div class="row">
-	<div class="col-md-4 text-center">
+	<div class="col-md-4 col-sm-5 text-center">
 		<%= image_tag @user.avatar_url(:medium) %>
 		<% unless current_user == @user %>
 			<%= link_to "Send message", conversations_path(recipient_id: @user.id), method: :post, class: "btn btn-default" %>
 		<% end %>
 	</div>
-	<div class="col-md-8">
+	<div class="col-md-8 col-sm-7">
+		<span class="pull-right"><% if @user.online? %>
+			<span class="online">online</span>
+		<% else %>
+			<span class="last_seen_at"><%= @user.updated_at > 1.day.ago ? 'last seen '+time_ago_in_words(@user.updated_at)+' ago' : 'last seen at '+time_for_messages(@user.updated_at) %></span>
+		<% end %></span>
+
 		<h2><%= @user.first_name + ' ' + @user.last_name  %></h2>
 
 		<% if current_user == @user %>
@@ -38,4 +45,5 @@
 		<% end %>
 
 	</div>
+</div>
 </div>

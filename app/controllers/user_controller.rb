@@ -9,6 +9,7 @@ class UserController < ApplicationController
 	    @users = @users.by_gender(params[:gender]) unless params[:gender].to_s.empty?
 	    @users = @users.by_min_age(params[:min_age]) unless params[:min_age].to_s.empty?
 	    @users = @users.by_max_age(params[:max_age]) unless params[:max_age].to_s.empty?
+	    @users = @users.online if params[:online] == '1'
 	    unless params[:country_id].to_s.empty?
 	    	unless params[:state_id].to_s.empty?
 	    		unless params[:city_id].to_s.empty?
@@ -41,7 +42,8 @@ class UserController < ApplicationController
 		if !params[:gender].to_s.empty? ||
 			!params[:min_age].to_s.empty? || 
 			!params[:max_age].to_s.empty? ||
-			!params[:country_id].to_s.empty?
+			!params[:country_id].to_s.empty? ||
+			params[:online] == '1'
 			return true
 		end
 		if params[:search]

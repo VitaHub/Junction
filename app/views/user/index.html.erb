@@ -22,13 +22,17 @@
 						<h5>Gender:</h5>
 						<%= select_tag :gender, options_for_select(User::GENDER_TYPES.zip(1..3)), { class: "form-control", include_blank: true} %>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<h5>Min age:</h5>
 						<%= number_field_tag :min_age, nil, in: 17...100, class: "form-control" %>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<h5>Max age:</h5>
 						<%= number_field_tag :max_age, nil, in: 17...100, class: "form-control" %>
+					</div>
+					<div class="col-md-2">
+						<h5>Online:</h5>
+						<%= check_box_tag :online, '1', false, class: "form-control" %>
 					</div>
 				</div>
 

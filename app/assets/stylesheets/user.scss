@@ -17,3 +17,19 @@
 		color: #000;
 	}
 }
+	input#online.form-control:active,
+	input#online.form-control:focus,
+	input#online.form-control {
+    box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
+	}
+
+.user-page {
+	.online {
+		color: green;
+	}
+	.last_seen_at {
+		color: grey;
+	}
+}

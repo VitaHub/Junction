@@ -99,11 +99,17 @@ class User < ActiveRecord::Base
 
   scope :by_city, lambda {|city| where(:city_id => city)}
 
+  scope :online, lambda{ where("updated_at > ?", 10.minutes.ago) }
+
   def gender_txt
   	GENDER_TYPES[self.gender - 1]
   end
 
   def full_name
     first_name + ' ' + last_name
+  end
+
+  def online?
+    updated_at > 10.minutes.ago
   end
 end
