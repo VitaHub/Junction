@@ -1,6 +1,7 @@
 class MessagesChannel < ApplicationCable::Channel  
   def subscribed
     stream_from "messages_#{params[:conversation]}"
+    stream_from "messages_user_#{current_user.id}"
   end
 
   def read_messages(data)
@@ -24,4 +25,11 @@ class MessagesChannel < ApplicationCable::Channel
   		message_status: conversation.messages.last.status
 
   end
+
+  def typing(data)
+    ActionCable.server.broadcast "messages_user_#{data['recipient_id']}",
+      typing: data['typing'],
+      sender_name: current_user.first_name
+  end
+
 end

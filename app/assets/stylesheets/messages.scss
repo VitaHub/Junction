@@ -7,16 +7,21 @@
 		display: none;
 	}
 
+	#typing {
+		height: 30px;
+		padding: 10px 0 0 30px;
+	}
+
 	.new_message {
 		#message_body {
 			resize: none;
 		}
 		height: 100px;
-		padding: 20px;
+		padding: 10px 20px 20px;
 	}
 
 	#messages-list {
-		height: calc(100vh - 236px);
+		height: calc(100vh - 266px);
 		overflow-y: auto;
 
 		.read {

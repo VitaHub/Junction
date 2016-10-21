@@ -1,13 +1,16 @@
 <div class="messages">
 	
 	<h3><%= name(@conversation) %></h3>
-	<div id="messages-list" data-conversation="<%= @conversation.id %>" data-currentuserid="<%= current_user.id %>">
+	<div id="messages-list" data-conversation="<%= @conversation.id %>" data-currentuserid="<%= current_user.id %>" data-interlocutorid="<%= interlocutor(@conversation).id %>">
 		<% if @messages.count < 0 %><%= will_paginate @messages %><% end %>
 		<table>
 			<tbody>
 				<%= render @messages %>
 			</tbody>
 		</table>
+	</div>
+	<div id="typing">
+		
 	</div>
 
 	<%= form_for [@conversation, @message], remote: true do |f| %>

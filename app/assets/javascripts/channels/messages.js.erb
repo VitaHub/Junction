@@ -1,10 +1,15 @@
 $(document).ready(function() {
 	var conversation = $('#messages-list').data('conversation');
 	var current_user_id = $('#messages-list').data('currentuserid');
+	var interlocutor_id = $('#messages-list').data('interlocutorid');
 	App.messages = App.cable.subscriptions.create({channel: 'MessagesChannel', 
 													conversation: conversation }, {  
 	  received: function(data) {
-	  	if (data.read_all == true) {
+	  	if (data.typing == true) {
+	  		$('#typing').html(data.sender_name + ' is typing...');
+	  	} else if (data.typing == false) {
+	  		$('#typing').html('');
+	  	} else if (data.read_all == true) {
 	  		$('tr[recipient='+ data.recipient_id +']').removeClass('unread').addClass('read');
 	  	} else {
 		    $('#messages-list tbody').append(this.renderMessage(data));
@@ -33,5 +38,23 @@ $(document).ready(function() {
 	  readMessages: function(data) {
 	  	this.perform("read_messages", {conversation_id: data.conversation_id, recipient_id: data.recipient_id})
 	  }
+	});
+
+	var typingTimer;
+	var doneTypingInterval = 1000;
+	var typing = false;
+
+	$('#message_body').keydown(function(e) {
+		if (e.which != 13) {
+			if (typing == false) {
+	      typing = true;
+	      App.messages.perform("typing", {recipient_id: interlocutor_id, typing: typing})
+	  	};		
+		  clearTimeout(typingTimer);
+		  typingTimer = setTimeout(function() {
+		    typing = false;
+		    App.messages.perform("typing", {recipient_id: interlocutor_id, typing: typing})
+		  }, doneTypingInterval);
+		};
 	});
 });
