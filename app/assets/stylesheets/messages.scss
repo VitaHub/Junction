@@ -33,12 +33,16 @@
 
 		table {
 			width: 100%;
+			word-wrap: break-word;
+    	overflow-wrap: break-word;
+    	table-layout: fixed;
+
 			td {
-				padding: 0;
+				padding: 5px;
 				vertical-align: top;
 			}
 			td.photo {
-				width: 70px;
+				width: 80px;
 			}
 		}
 
