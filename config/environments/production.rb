@@ -1,4 +1,4 @@
-Rails.application.routes.default_url_options[:host] = '95.67.81.229'
+Rails.application.routes.default_url_options[:host] = 'jun.com.ua'
 
 Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
@@ -42,7 +42,7 @@ Rails.application.configure do
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
   config.action_cable.url = '/cable'
-  config.action_cable.allowed_request_origins = [ 'https://95.67.81.229', /http:\/\/95.67.81.229.*/ ]
+  config.action_cable.allowed_request_origins = [ 'https://95.67.81.229', 'https://jun.com.ua', /http:\/\/95.67.81.229*/, /http:\/\/jun.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true

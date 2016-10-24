@@ -41,6 +41,7 @@ gem 'will_paginate', 									'~> 3.1.0'
 gem 'redis', 													'~>3.2'
 gem 'carrierwave'
 gem 'cloudinary'
+gem 'rvm-capistrano', group: :development
 
 group :test do
 	gem 'capybara'
