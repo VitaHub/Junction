@@ -37,4 +37,6 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
+  username: junction
+  password: junction
   database: junction_production

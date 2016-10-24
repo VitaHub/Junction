@@ -1,18 +1,9 @@
-# Rails.application.routes.default_url_options[:host] = 'juncti0n.herokuapp.com'
+Rails.application.routes.default_url_options[:host] = '95.67.81.229'
+
 Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-  host = 'juncti0n.herokuapp.com'
-  config.action_mailer.default_url_options = { host: host }
-  ActionMailer::Base.smtp_settings = {
-    :address        => 'smtp.sendgrid.net',
-    :port           => '587',
-    :authentication => :plain,
-    :user_name      => ENV['SENDGRID_USERNAME'],
-    :password       => ENV['SENDGRID_PASSWORD'],
-    :domain         => 'heroku.com',
-    :enable_starttls_auto => true
-  }
+  config.action_mailer.delivery_method = :sendmail
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -37,7 +28,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -50,8 +41,8 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
-  config.action_cable.url = 'wss://juncti0n.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = [ 'https://juncti0n.herokuapp.com', /http:\/\/juncti0n.herokuapp.*/ ]
+  config.action_cable.url = '/cable'
+  config.action_cable.allowed_request_origins = [ 'https://95.67.81.229', /http:\/\/95.67.81.229.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
