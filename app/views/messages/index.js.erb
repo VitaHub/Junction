@@ -1,2 +1,7 @@
+var initialScrollTop = $('#messages-list').scrollTop();
 $('#messages-list tbody').prepend('<%= escape_javascript render(@messages) %>');
 $('.pagination').replaceWith('<%= escape_javascript will_paginate(@messages) %>');
+var itemsPerPage = 15
+var item = $("#messages-list table tbody tr:first").outerHeight();
+var scrollTop = initialScrollTop + itemsPerPage * item;
+$('#messages-list').scrollTop(scrollTop);

@@ -2,7 +2,7 @@
 	
 	<h3><%= name(@conversation) %></h3>
 	<div id="messages-list" data-conversation="<%= @conversation.id %>" data-currentuserid="<%= current_user.id %>" data-interlocutorid="<%= interlocutor(@conversation).id %>">
-		<% if @messages.count < 0 %><%= will_paginate @messages %><% end %>
+		<% if @messages.count > 0 %><%= will_paginate @messages %><% end %>
 		<table>
 			<tbody>
 				<%= render @messages %>

@@ -39,7 +39,6 @@ $(document).ready(function() {
       var url = $('.pagination .previous_page').attr('href');
       if (url && $('#messages-list').scrollTop() < 50) {
         $('.pagination').text("Please Wait...");
-        $('#messages-list').scrollTop(1050);
         return $.getScript(url);
       };
     });

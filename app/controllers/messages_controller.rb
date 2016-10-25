@@ -3,10 +3,10 @@ class MessagesController < ApplicationController
 	include ActionView::Helpers::TextHelper
 
 	def index
-		# per_page = 15
-		# last_page = (@conversation.messages.count.to_f / per_page).ceil
+		per_page = 15
+		last_page = (@conversation.messages.count.to_f / per_page).ceil
 		if @conversation.messages.count > 0
-			@messages = @conversation.messages#.paginate(page: params[:page] || last_page , per_page: per_page)
+			@messages = @conversation.messages.paginate(page: params[:page] || last_page , per_page: per_page)
 	  	sender = User.find(@conversation.messages.last.sender_id) 
 	  	recipient = User.find(@conversation.messages.last.recipient_id)
 	  	ActionCable.server.broadcast "conversations_user_#{sender.id}",
