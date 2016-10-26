@@ -4,6 +4,28 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :user_activity
+  before_action :ensure_signup_complete
+
+  def after_sign_in_path_for(resource)
+    if resource.email_verified?
+      super resource
+    else
+      finish_signup_path(resource)
+    end
+  end
+
+  def ensure_signup_complete
+    # Убеждаемся, что цикл не бесконечный
+    return if action_name == 'finish_signup'
+
+    # Редирект на адрес 'finish_signup' если пользователь
+    # не подтвердил свою почту
+		unless (action_name == 'destroy' && controller_name == 'sessions') || controller_name == 'confirmations'
+	    if current_user && !current_user.email_verified?
+	      redirect_to finish_signup_path(current_user)
+	    end
+		end
+  end
 
   protected
 

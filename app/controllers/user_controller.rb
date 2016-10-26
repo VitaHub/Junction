@@ -1,5 +1,6 @@
 class UserController < ApplicationController
 	before_action :authenticate_user!
+	before_action :set_user, only: :finish_signup
 	PER_PAGE = 20
 
 	def index
@@ -36,6 +37,17 @@ class UserController < ApplicationController
 		@user = User.find(params[:id])
 	end
 
+  def finish_signup
+    if request.patch? && params[:user] #&& params[:user][:email]
+      if @user.update(user_params)
+        sign_in(@user)
+        redirect_to root_url, notice: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
+      else
+        @show_errors = true
+      end
+    end
+  end
+
 		private
 
 	def search_params_available?(params)
@@ -50,5 +62,14 @@ class UserController < ApplicationController
 			return true if params[:search].to_s.size > 2
 		end
 	end
-	
+
+  def set_user
+    @user = User.find(params[:id])
+    redirect_to root_url unless @user == current_user
+    redirect_to root_url if current_user.try(:email_verified?)
+  end
+
+  def user_params
+    params.require(:user).permit([:email])
+  end
 end

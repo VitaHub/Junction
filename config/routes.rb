@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     get 'sign_up' => 'devise/registrations#new'
   end
 
+  match '/users/:id/finish_signup' => 'user#finish_signup', via: [:get, :patch], :as => :finish_signup
+
   get 'users' => 'user#index'
   get 'users/:id' => 'user#show', as: :user
 

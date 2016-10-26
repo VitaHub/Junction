@@ -21,6 +21,11 @@ class User < ActiveRecord::Base
 
 
   # For devise. 
+  TEMP_EMAIL_PREFIX = 'change@me'
+  TEMP_EMAIL_REGEX = /\Achange@me/
+
+  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
+
   def update_without_password(params, *options)
 
     if params[:password].blank?
@@ -41,6 +46,7 @@ class User < ActiveRecord::Base
     if user.nil?
       email = auth.info.email
       user = User.where(:email => email).first if email
+      email = (email.nil? || email.empty? ? "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com" : email)
       # Create user if this is a new record
       if user.nil?
         pass = Devise.friendly_token[0,20]
@@ -53,8 +59,8 @@ class User < ActiveRecord::Base
           password: pass,
           password_confirmation: pass
         )
-        user.confirmed_at = Time.now
-        # user.skip_confirmation!
+        # user.confirmed_at = Time.now
+        user.skip_confirmation!
         user.save!
       end
     end
@@ -64,6 +70,10 @@ class User < ActiveRecord::Base
       identity.save!
     end
     user
+  end
+
+  def email_verified?
+    self.email && self.email !~ TEMP_EMAIL_REGEX
   end
 
   def age
