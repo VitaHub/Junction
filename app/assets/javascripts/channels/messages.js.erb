@@ -1,60 +1,80 @@
 $(document).ready(function() {
 	var conversation = $('#messages-list').data('conversation');
-	var current_user_id = $('#messages-list').data('currentuserid');
-	var interlocutor_id = $('#messages-list').data('interlocutorid');
-	App.messages = App.cable.subscriptions.create({channel: 'MessagesChannel', 
-													conversation: conversation }, {  
-	  received: function(data) {
-	  	if (data.typing == true) {
-	  		$('#typing').html(data.sender_name + ' is typing...');
-	  	} else if (data.typing == false) {
-	  		$('#typing').html('');
-	  	} else if (data.read_all == true) {
-	  		$('tr[recipient='+ data.recipient_id +']').removeClass('unread').addClass('read');
-	  	} else {
-		    $('#messages-list tbody').append(this.renderMessage(data));
-		    $("#messages-list").scrollTop($('#messages-list table').height())
-		    if (current_user_id == data.recipient_id) {
-		    	this.readMessages(data)
-		    };
-		  };
-	  },
+	if (!!conversation) {
+		var current_user_id = $('#messages-list').data('currentuserid');
+		App.messages = App.cable.subscriptions.create({channel: 'MessagesChannel', 
+														conversation: conversation }, {  
+		  received: function(data) {
+		  	if (data.typing == true) {
+		  		 	// Пользователь печатает ...
+		  		$('#typing').append('<span class="typing">'+ data.sender_name + ' is typing... </span>');
+		  	} else if (data.typing == false) {
+		  			// Пользователь перестал печатать ...
+		  		$('span.typing').remove(":contains('" + data.sender_name + "')");
+		  	} else if (data.read_incoming == true) {
+		  			// Пометить все сообщения прочитанными, кроме своих
+		  		$('tr[sender!='+ data.me +']').removeClass('unread').addClass('read');
+		  	} else if (data.read_all == true) {
+		  		$('tr').removeClass('unread').addClass('read');
+		  	} else if (data.read_messages == true) {
+		  			// Пометить сообщения от отправителя прочитанными
+		  		$('tr[sender='+ data.sender_id +']').removeClass('unread').addClass('read');
+		  	} else {
+		  			// Добавить сообщение в диалог
+			    $('#messages-list tbody').append(this.renderMessage(data));
+			    	// Сдвинуть скролл вниз
+			    $("#messages-list").scrollTop($('#messages-list table').height())
+			    	// Если сообщение не свое, то запустить "прочтение сообщения"
+			    if (current_user_id != data.sender_id) {
+			    	this.readMessages(data)
+			    };
+			  };
+		  },
 
-	  renderMessage: function(data) {
-			return "<tr class='" + data.status + "' recipient='" + data.recipient_id + "'>" + 
-				"<td class='photo'>" + 
-					"<a href=" + data.user_path + ">" +
-						"<img height='70' src=" + data.avatar + " alt='avatar'>" +
-					"</a>" +
-				"</td>" +
-				"<td>" +
-					"<span class='name'>" + data.sender_name + "</span> " +
-					"<span class='time'>(" + data.created_at + ")</span><br>" +
-					"<span class='body'>" + data.message + "</span>" +
-				"</td>" +
-			"</tr>"    
-	  },
+		  	// Шаблон сообщения
+		  renderMessage: function(data) {
+				return "<tr class='" + data.status + "' sender='" + data.sender_id + "'>" + 
+					"<td class='photo'>" + 
+						"<a href=" + data.user_path + ">" +
+							"<img height='70' src=" + data.avatar + " alt='avatar'>" +
+						"</a>" +
+					"</td>" +
+					"<td>" +
+						"<span class='name'>" + data.sender_name + "</span> " +
+						"<span class='time'>(" + data.created_at + ")</span><br>" +
+						"<span class='body'>" + data.message + "</span>" +
+					"</td>" +
+				"</tr>"    
+		  },
 
-	  readMessages: function(data) {
-	  	this.perform("read_messages", {conversation_id: data.conversation_id, recipient_id: data.recipient_id})
-	  }
-	});
+		  	// Процедура "прочтения" входящего сообщения
+		  readMessages: function(data) {
+		  	this.perform("read_messages", {conversation_id: conversation, sender_id: data.sender_id})
+		  }
+		});
 
-	var typingTimer;
-	var doneTypingInterval = 1000;
-	var typing = false;
+		var typingTimer;
+		var doneTypingInterval = 1000;
+		var typing = false;
 
-	$('#message_body').keydown(function(e) {
-		if (e.which != 13) {
-			if (typing == false) {
-	      typing = true;
-	      App.messages.perform("typing", {recipient_id: interlocutor_id, typing: typing})
-	  	};		
-		  clearTimeout(typingTimer);
-		  typingTimer = setTimeout(function() {
-		    typing = false;
-		    App.messages.perform("typing", {recipient_id: interlocutor_id, typing: typing})
-		  }, doneTypingInterval);
-		};
-	});
+			// Процедура запуска отображения процесса печати
+		$('#message_body').keydown(function(e) {
+			if ($('#message_body').val) {
+				if (e.which != 13 && e.which != 17 && e.which != 37 &&
+						e.which != 38 && e.which != 39 && e.which != 40 &&
+						e.which != 8 && e.which != 16 && e.which != 18 &&
+						e.which != 27 && e.which != 116 && e.which != 20) {
+					if (typing == false) {
+			      typing = true;
+			      App.messages.perform("typing", {conversation_id: conversation, typing: typing})
+			  	};		
+				  clearTimeout(typingTimer);
+				  typingTimer = setTimeout(function() {
+				    typing = false;
+				    App.messages.perform("typing", {conversation_id: conversation, typing: typing})
+				  }, doneTypingInterval);
+				};
+			};
+		});
+	};
 });

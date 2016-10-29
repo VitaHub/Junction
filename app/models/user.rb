@@ -2,7 +2,9 @@ class User < ActiveRecord::Base
   has_many :sent_messages, 
            class_name: 'Message', 
            foreign_key: 'sender_id' 
-  has_many :messages, foreign_key: 'recipient_id'
+  # has_many :messages, foreign_key: 'recipient_id'
+  has_many :message_statuses
+  has_many :messages, through: :message_statuses
   has_and_belongs_to_many :conversations
 
 	GENDER_TYPES = ["Not telling","Male", "Female"]

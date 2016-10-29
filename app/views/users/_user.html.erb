@@ -15,5 +15,8 @@
 		<% if user.birth_date %>
 			<p class="list-group-item-text"><%= pluralize(user.age, 'year') %></p>
 		<% end %>
+		<% if current_user.admin? && user.email %>
+			<p class="list-group-item-text"><%= user.email %></p>
+		<% end %>
 	<% end %>
 </div>

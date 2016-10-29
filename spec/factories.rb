@@ -1,4 +1,9 @@
 FactoryGirl.define do
+  factory :message_status do
+    user_id 1
+    message_id 1
+    status 1
+  end
   factory :message do
     recipient_id 1
     sender_id 1

@@ -11,8 +11,8 @@
 					<% if user_signed_in? %>
 						<li>
 							<%= link_to conversations_path, class: "button" do %>
-								Messages <% if current_user.messages.unread.any? %>
-									<span id="messages-notification" class="badge"><%= current_user.messages.unread.count %></span>
+								Messages <% if unread_messages > 0 %>
+									<span id="messages-notification" class="badge"><%= unread_messages %></span>
 								<% else %>
 									<span id="messages-notification" class="badge hidden"></span>
 								<% end %>

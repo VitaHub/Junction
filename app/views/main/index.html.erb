@@ -1,7 +1,10 @@
 <div class="container">
 	<% unless current_user %>
 		<div class="row">
-			<div class="col-md-4 col-md-offset-8">
+			<div class="col-md-8 col-sm-7">
+				<h3><span class="label label-primary"><%= pluralize(User.count, 'user') %> registered</span></h3>
+			</div>
+			<div class="col-md-4 col-sm-5">
 				<%= render "devise/shared/login_form" %>
 				<%= render "devise/shared/links" %>
 			</div>
