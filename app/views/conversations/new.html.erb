@@ -1,0 +1,21 @@
+<div id="new-conversation">
+
+	<%= form_tag(conversations_path(chat_room: true), method: :post, id: "new-conversation-form") do |f| %>
+
+		<%= button_tag "Create conversation", type: 'submit', class: "btn btn-default pull-right" %>
+		<h3>Select interlocutors</h3>
+
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
+				<div class="list-group">
+					<% @interlocutors.sort_by(&:id).reverse.try(:each) do |i| %>
+						<div class="list-group-item">
+							<p><%= check_box_tag 'interlocutors[]', i.id, false, class: "check-box" %> <%= i.full_name %></p>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+
+	<% end %>
+</div>

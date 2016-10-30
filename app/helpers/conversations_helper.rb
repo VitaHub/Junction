@@ -8,11 +8,12 @@ module ConversationsHelper
 	end
 
 	def interlocutor(conversation)
-		Conversation.find(conversation.id).users.each do |user|
-			unless user == current_user
-				return user
-			end
-		end
+  	if conversation.messages.where.not(sender_id: current_user.id).last
+  		User.find(conversation.messages.where.not(sender_id: current_user.id)
+  			.last.sender_id)
+  	else
+  		conversation.users.where.not(id: current_user.id)[0]
+  	end
 	end
 
 	def interlocutors(conversation)

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'users' => 'user#index'
   get 'users/:id' => 'user#show', as: :user
 
-  resources :conversations, only: [:index, :create] do
+  resources :conversations, only: [:index, :new, :create] do
     resources :messages, only: [:index, :create]
   end
 

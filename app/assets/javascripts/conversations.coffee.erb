@@ -1,4 +1,10 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+ready = () ->
+	$('#new-conversation .list-group-item').on 'click', (e)->
+		if !$(e.target).is(':checkbox')
+		  checkbox = $(this).find('input')
+		  checkbox.click()
 
+$(document).ready(ready)

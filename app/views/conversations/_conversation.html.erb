@@ -9,7 +9,7 @@
 			<%= link_to conversation_messages_path(conversation) do %>
 				<div class="list-group-item">
 					<span class="name">
-						<%= interlocutor(conversation).full_name %>
+						<%= conversation_name(conversation) %>
 					</span>
 					<span class="time pull-right">
 						<%= time_for_messages(conversation.messages.last.created_at) %>

@@ -97,8 +97,18 @@ class MessagesController < ApplicationController
 	    		# Т.к. получателей может быть несколько, для иконки диалога для отправителя
 	    		# берется человек, сообщение которого последнее перед сообщением отправителя.
 	    		# Для остальных пользователей для иконки диалога берется сам отправитель
-	    	recipient = User.find(@conversation.messages.where.not(sender_id: sender.id).last.sender_id)
+	    	if @conversation.messages.where.not(sender_id: sender.id).last
+	    		recipient = User.find(@conversation.messages.where.not(sender_id: sender.id)
+	    		.last.sender_id)
+	    	else
+	    		recipient = @conversation.users.where.not(id: current_user.id)[0]
+	    	end
+
 	    	@conversation.users.each do |user|
+    			interlocutors = []
+    			@conversation.users.each do |current_user|
+    				interlocutors << current_user.full_name unless current_user == user 
+    			end
 
 	    		message_status = 
 		  			@message.message_statuses.where(user_id: user.id)[0].status || @message.status
@@ -107,12 +117,10 @@ class MessagesController < ApplicationController
 	    			conversation_status = ''
 	    			interlocutor_path = user_path(recipient)
 	    			interlocutor_avatar = view_context.image_path(recipient.avatar_url(:thumb))
-	    			interlocutor_name = recipient.full_name
 	    		else
 	    			conversation_status = message_status
 	    			interlocutor_path = user_path(sender)
 	    			interlocutor_avatar = view_context.image_path(sender.avatar_url(:thumb))
-	    			interlocutor_name = sender.full_name
 	    		end
 
 		    	ActionCable.server.broadcast "conversations_user_#{user.id}",
@@ -120,7 +128,7 @@ class MessagesController < ApplicationController
 		    		conversation_status: conversation_status,
 		    		interlocutor_path: interlocutor_path,
 		    		interlocutor_avatar: interlocutor_avatar,
-		    		interlocutor_name: interlocutor_name,
+		    		interlocutor_name: "Conversation with " + interlocutors.join(", "),
 		    		conversation_path: conversation_messages_path(@conversation),
 		    		message_time: helpers.time_for_messages(@message.created_at),
 		    		message_status: message_status,
