@@ -1,4 +1,4 @@
-<tr class="<%= message.message_statuses.where(user_id: current_user.id)[0].status || message.status %>"
+<tr class="<%= message.message_statuses.where(user_id: current_user.id)[0].try(:status) || message.status %>"
 		sender="<%= message.sender_id.to_s %>">
 	<td class="photo">
 		<%= link_to user_path(User.find(message.sender_id)) do %>
