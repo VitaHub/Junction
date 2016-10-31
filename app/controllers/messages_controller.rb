@@ -38,7 +38,7 @@ class MessagesController < ApplicationController
 
 	  			# Обновляет открытые в данный момент списки диалогов у всех участников диалога
 	  		message_status = 
-	  			@conversation.messages.last.message_statuses.where(user_id: user.id)[0].status || 
+	  			@conversation.messages.last.message_statuses.where(user_id: user.id)[0].try(:status) || 
 	  			@conversation.messages.last.status
 	  		con_s = @conversation.messages.last.sender_id == user.id ? '' : message_status
 				ActionCable.server.broadcast "conversations_user_#{user.id}",
@@ -88,7 +88,7 @@ class MessagesController < ApplicationController
         sender_name: User.find(@message.sender_id).first_name,
         sender_id: @message.sender_id,
         conversation_id: @conversation.id
-      head :ok
+      # head :ok
 
     	sender = User.find(@message.sender_id)
 
