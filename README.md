@@ -10,6 +10,8 @@
  - real-time messaging (using Action Cable);
  - real-time notifications;
  - showing when user is online;
- - displaying when interlocutor is typing.
+ - read/unread messages updating in real-time;
+ - displaying when interlocutor is typing;
+ - real-time conversation with multiple people.
 
-#### https://juncti0n.herokuapp.com
+#### https://jun.com.ua
